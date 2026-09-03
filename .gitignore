@@ -1,0 +1,11 @@
+# Temp / test artifacts
+.chrome-cdp/
+*.mjs
+*.ps1
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
