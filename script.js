@@ -61,3 +61,28 @@ themeToggle?.addEventListener('click', () => {
   const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
   applyTheme(current);
 });
+
+/* Scroll progress bar + floating back-to-top button */
+const progressBar = document.getElementById('scroll-progress');
+const backToTop = document.getElementById('back-to-top');
+
+let ticking = false;
+function handleScroll() {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const progress = max > 0 ? window.scrollY / max : 0;
+    if (progressBar) progressBar.style.transform = `scaleX(${progress})`;
+    if (backToTop) backToTop.classList.toggle('visible', window.scrollY > 600);
+    ticking = false;
+  });
+}
+
+window.addEventListener('scroll', handleScroll, { passive: true });
+handleScroll();
+
+backToTop?.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
