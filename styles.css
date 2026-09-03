@@ -277,6 +277,8 @@ h3 { letter-spacing: -.025em; }
 .screenshot-frame img { display: block; width: 100%; height: auto; }
 .shot-primary { transform: rotate(-1.2deg); }
 .shot-secondary { transform: rotate(1deg); margin-left: 3%; width: 97%; }
+.shot-pos-primary { transform: rotate(1.2deg); }
+.shot-pos-secondary { transform: rotate(-1deg); margin-right: 3%; width: 97%; }
 
 .education-card { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: end; }
 .education-card h2 { max-width: 700px; }
