@@ -24,6 +24,9 @@ python -m http.server 8000
 
 Then visit `http://localhost:8000`.
 
+The site includes a **dark/light theme toggle** (sun/moon button in the top-right nav).
+Your choice is saved in the browser, and the first visit follows your system's color scheme.
+
 ## Deploy to Vercel
 
 1. Create a GitHub repository.
