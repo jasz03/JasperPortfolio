@@ -262,6 +262,22 @@ h3 { letter-spacing: -.025em; }
 .fake-buttons i { width: 68px; height: 27px; }
 .fake-buttons i:first-child { background: rgba(110,231,183,.45); }
 
+/* Real UI screenshots — browser-window style frames */
+.screenshot-stack { width: 100%; display: grid; gap: 22px; }
+.screenshot-frame {
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 45px rgba(0,0,0,.28);
+}
+.screenshot-bar { display: flex; gap: 6px; padding: 10px 13px; border-bottom: 1px solid var(--line); }
+.screenshot-bar span { width: 8px; height: 8px; border-radius: 50%; background: var(--terminal-dot); }
+.screenshot-frame img { display: block; width: 100%; height: auto; }
+.shot-primary { transform: rotate(-1.2deg); }
+.shot-secondary { transform: rotate(1deg); margin-left: 3%; width: 97%; }
+
 .education-card { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: end; }
 .education-card h2 { max-width: 700px; }
 .education-specialization { color: var(--text-soft); font-size: 1.05rem; }
