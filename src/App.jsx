@@ -206,7 +206,7 @@ export default function App(){
         <div className="about-copy reveal">
           <p>
             I graduated from the <strong>University of the Immaculate Conception</strong> with a
-            <strong>Bachelor of Science in Information Technology</strong>, majoring in <strong>Healthcare Technologies</strong>.
+            <strong> Bachelor of Science in Information Technology</strong>, majoring in <strong>Healthcare Technologies</strong>.
             My current role as an IT Staff member has given me hands-on experience supporting users, maintaining network and ICT
             infrastructure, managing endpoints, administering Active Directory, and keeping technical documentation up to date.
           </p>
