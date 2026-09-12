@@ -357,6 +357,7 @@ h3 { letter-spacing: -.025em; }
 .section-heading { max-width: 770px; }
 .section-heading.center { text-align: center; margin: 0 auto 58px; }
 .section-heading.center > p:last-child { color: var(--muted); }
+.section-subtitle { color: var(--accent); }
 .about-copy { color: var(--text-body); font-size: 1.06rem; }
 .about-copy strong { color: var(--text); }
 
@@ -433,10 +434,10 @@ h3 { letter-spacing: -.025em; }
 
 .education-card { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: end; }
 .education-card h2 { max-width: 700px; }
-.education-specialization { color: var(--text-soft); font-size: 1.05rem; }
+.education-specialization { color: var(--accent); font-size: 1.05rem; }
 .education-note { border-left: 1px solid var(--line); padding-left: 30px; }
 .education-note span { color: var(--accent); font: 600 .75rem/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .1em; }
-.education-note p { margin-top: 14px; color: var(--muted); }
+.education-note p { margin-top: 14px; color: var(--accent); }
 
 .contact-section { padding-bottom: 72px; }
 .contact-card { display: grid; grid-template-columns: 1.2fr .8fr; gap: 70px; align-items: end; padding: 48px; border-radius: 28px; }
@@ -516,7 +517,7 @@ h3 { letter-spacing: -.025em; }
   /* mobile nav handled by .mobile-nav panel above */
   h1 { font-size: clamp(3rem, 15vw, 5rem); }
   .hero { padding-top: 56px; }
-  .hero-stats { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 12px; font-size: .7rem; }
   .hero-panel { min-height: 430px; justify-items: center; padding-right: 0; }
   .hero-visual-group { width: 100%; min-width: 0; }
   .floating-top { top: -8px; right: -5px; }

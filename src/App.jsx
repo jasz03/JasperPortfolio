@@ -225,7 +225,7 @@ export default function App(){
       <div className="section-heading center reveal">
         <p className="kicker">EXPERIENCE</p>
         <h2>Hands-on IT operations and development experience</h2>
-        <p>Supporting infrastructure and users today, backed by practical software development experience.</p>
+        <p className="section-subtitle">Supporting infrastructure and users today, backed by practical software development experience.</p>
       </div>
 
       <div className="timeline reveal">
