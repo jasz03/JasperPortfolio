@@ -1,4 +1,4 @@
-import{n as e,r as t,t as n}from"./index-CjGNtiCP.js";var r=t(e(),1),i=n(),a=`
+import{n as e,r as t,t as n}from"./index-Cax4Cxu-.js";var r=t(e(),1),i=n(),a=`
         attribute vec2 position;
         void main() {
           gl_Position = vec4(position, 0.0, 1.0);

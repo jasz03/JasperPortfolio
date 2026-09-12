@@ -116,7 +116,7 @@ export default function App(){
         <div className="eyebrow"><span className="status-dot"></span> Davao City, Philippines · Open to opportunities</div>
         <p className="kicker">IT SUPPORT · SYSTEMS · NETWORKING · FULL-STACK</p>
         <h1>I keep technology reliable and make systems easier to use.</h1>
-        <p className="hero-text">
+        <p className="hero-text glass-card">
           I’m <strong>Leo Jasper V. Ladica</strong>, an Information Technology professional with hands-on experience in IT support,
           system monitoring, network maintenance, desktop troubleshooting, Active Directory, and full-stack development.
           I focus on dependable technical support and practical improvements that help business operations run smoothly.
@@ -203,7 +203,7 @@ export default function App(){
           <p className="kicker">ABOUT ME</p>
           <h2>Technical support with a practical, user-focused mindset.</h2>
         </div>
-        <div className="about-copy reveal">
+        <div className="about-copy about-glass glass-card reveal">
           <p>
             I graduated from the <strong>University of the Immaculate Conception</strong> with a 
             <strong> Bachelor of Science in Information Technology</strong>, specialized in <strong>Healthcare Technologies</strong>.
@@ -231,37 +231,41 @@ export default function App(){
       <div className="timeline reveal">
         <article className="timeline-item">
           <div className="timeline-marker"></div>
-          <div className="timeline-meta">
-            <span className="badge">July 2025 — Present</span>
-            <h3>IT Staff</h3>
-            <p>Sta. Lucia Mall Davao</p>
-          </div>
-          <div className="timeline-content">
-            <ul>
-              <li>Monitor and maintain network infrastructure to support stable connectivity and reliable day-to-day operations.</li>
-              <li>Monitor and maintain ICT hardware, network devices, and IT equipment for optimal performance.</li>
-              <li>Configure, deploy, troubleshoot, and maintain desktop computers, laptops, printers, and other IT devices.</li>
-              <li>Provide technical support for hardware, software, network, and user-related issues.</li>
-              <li>Administer Active Directory, including account creation, password resets, permissions, and user/group management.</li>
-              <li>Maintain IT asset inventory and technical documentation.</li>
-            </ul>
+          <div className="timeline-card glass-card">
+            <div className="timeline-meta">
+              <span className="badge">July 2025 — Present</span>
+              <h3>IT Staff</h3>
+              <p>Sta. Lucia Mall Davao</p>
+            </div>
+            <div className="timeline-content">
+              <ul>
+                <li>Monitor and maintain network infrastructure to support stable connectivity and reliable day-to-day operations.</li>
+                <li>Monitor and maintain ICT hardware, network devices, and IT equipment for optimal performance.</li>
+                <li>Configure, deploy, troubleshoot, and maintain desktop computers, laptops, printers, and other IT devices.</li>
+                <li>Provide technical support for hardware, software, network, and user-related issues.</li>
+                <li>Administer Active Directory, including account creation, password resets, permissions, and user/group management.</li>
+                <li>Maintain IT asset inventory and technical documentation.</li>
+              </ul>
+            </div>
           </div>
         </article>
 
         <article className="timeline-item">
           <div className="timeline-marker"></div>
-          <div className="timeline-meta">
-            <span className="badge badge-secondary">January — March 2025</span>
-            <h3>Intern</h3>
-            <p>MinNa Lproc R&amp;D Laboratory</p>
-          </div>
-          <div className="timeline-content">
-            <ul>
-              <li>Improved and fixed code issues in the system to enhance functionality and reduce errors.</li>
-              <li>Redesigned system UI components to create a more intuitive interface.</li>
-              <li>Enhanced user workflow and system navigation experience.</li>
-              <li>Helped test the system and add new features.</li>
-            </ul>
+          <div className="timeline-card glass-card">
+            <div className="timeline-meta">
+              <span className="badge badge-secondary">January — March 2025</span>
+              <h3>Intern</h3>
+              <p>MinNa Lproc R&amp;D Laboratory</p>
+            </div>
+            <div className="timeline-content">
+              <ul>
+                <li>Improved and fixed code issues in the system to enhance functionality and reduce errors.</li>
+                <li>Redesigned system UI components to create a more intuitive interface.</li>
+                <li>Enhanced user workflow and system navigation experience.</li>
+                <li>Helped test the system and add new features.</li>
+              </ul>
+            </div>
           </div>
         </article>
       </div>
@@ -275,37 +279,37 @@ export default function App(){
         </div>
 
         <div className="skills-grid reveal">
-          <article className="skill-card">
+          <article className="skill-card glass-card">
             <div className="skill-number">01</div>
             <h3>IT Support</h3>
             <p>Desktop and laptop troubleshooting, hardware and software support, printer support, diagnostics, and user assistance.</p>
             <div className="tags"><span>Windows</span><span>Hardware</span><span>Software</span><span>End-user Support</span></div>
           </article>
-          <article className="skill-card">
+          <article className="skill-card glass-card">
             <div className="skill-number">02</div>
             <h3>Systems & Access</h3>
             <p>User account administration, password resets, permissions, group management, and endpoint configuration.</p>
             <div className="tags"><span>Active Directory</span><span>User Accounts</span><span>Permissions</span><span>Endpoints</span></div>
           </article>
-          <article className="skill-card">
+          <article className="skill-card glass-card">
             <div className="skill-number">03</div>
             <h3>Networking</h3>
             <p>Network infrastructure monitoring, connectivity troubleshooting, network-device maintenance, and issue isolation.</p>
             <div className="tags"><span>Network Monitoring</span><span>Connectivity</span><span>Network Devices</span><span>Troubleshooting</span></div>
           </article>
-          <article className="skill-card">
+          <article className="skill-card glass-card">
             <div className="skill-number">04</div>
             <h3>Full-Stack Development</h3>
             <p>Building complete applications — from React frontends to REST APIs, authentication, and database-backed backends.</p>
             <div className="tags"><span>React</span><span>Next.js</span><span>FastAPI</span><span>NestJS</span><span>PostgreSQL</span><span>TypeScript</span></div>
           </article>
-          <article className="skill-card">
+          <article className="skill-card glass-card">
             <div className="skill-number">05</div>
             <h3>Productivity & Design</h3>
             <p>Creating and maintaining clear business documents, spreadsheets, presentations, and visual materials.</p>
             <div className="tags"><span>Microsoft Word</span><span>Excel</span><span>Canva</span><span>Documentation</span></div>
           </article>
-          <article className="skill-card">
+          <article className="skill-card glass-card">
             <div className="skill-number">06</div>
             <h3>Professional Strengths</h3>
             <p>Problem-solving, analytical thinking, adaptability, continuous learning, and attention to detail.</p>
@@ -323,7 +327,7 @@ export default function App(){
       </div>
 
       <div className="projects-grid">
-        <article className="project-card featured reveal">
+        <article className="project-card glass-card featured reveal">
           <div className="project-visual visual-ticket">
             <div className="screenshot-stack">
               <figure className="screenshot-frame shot-primary">
@@ -350,7 +354,7 @@ export default function App(){
           </div>
         </article>
 
-        <article className="project-card featured reveal">
+        <article className="project-card glass-card featured reveal">
           <div className="project-visual visual-pos">
             <div className="screenshot-stack">
               <figure className="screenshot-frame shot-pos-primary">
@@ -377,7 +381,7 @@ export default function App(){
           </div>
         </article>
 
-        <article className="project-card reveal">
+        <article className="project-card glass-card reveal">
           <div className="project-copy">
             <div className="project-topline"><span>IT OPERATIONS</span><span>03</span></div>
             <h3>Endpoint & User Administration</h3>
@@ -389,7 +393,7 @@ export default function App(){
           </div>
         </article>
 
-        <article className="project-card reveal">
+        <article className="project-card glass-card reveal">
           <div className="project-copy">
             <div className="project-topline"><span>NETWORK SUPPORT</span><span>04</span></div>
             <h3>Network & ICT Infrastructure Support</h3>
@@ -424,17 +428,17 @@ export default function App(){
         <h2>Continuous learning beyond the classroom</h2>
       </div>
       <div className="cert-grid reveal">
-        <article className="cert-card">
+        <article className="cert-card glass-card">
           <span className="cert-year">2025</span>
           <h3>Frontend Development using React</h3>
           <p>Frontend development and component-based web application skills.</p>
         </article>
-        <article className="cert-card">
+        <article className="cert-card glass-card">
           <span className="cert-year">2025</span>
           <h3>JavaScript for Web Development</h3>
           <p>JavaScript fundamentals and practical web development concepts.</p>
         </article>
-        <article className="cert-card">
+        <article className="cert-card glass-card">
           <span className="cert-year">2025</span>
           <h3>AWS Certified Solutions Architect</h3>
           <p>Cloud architecture concepts and AWS solution design.</p>
@@ -459,7 +463,7 @@ export default function App(){
     </section>
 
     <section className="section container contact-section" id="contact">
-      <div className="contact-card reveal">
+      <div className="contact-card glass-card reveal">
         <div>
           <p className="kicker">LET’S CONNECT</p>
           <h2>Looking for reliable IT support with room to grow?</h2>
