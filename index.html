@@ -8,6 +8,9 @@
 </head>
 <body id="top">
   <script>
+    // Marks that JS is available before first paint, so the .reveal fade-in
+    // rules apply without a flash of already-visible content.
+    document.documentElement.classList.add('js');
     (function() {
       try {
         var stored = localStorage.getItem('theme');

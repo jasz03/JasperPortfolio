@@ -285,13 +285,17 @@ button, input, textarea { font: inherit; }
     max-height: 0;
     overflow: hidden;
     opacity: 0;
+    /* visibility keeps the collapsed links out of the keyboard tab order */
+    visibility: hidden;
     transform: translateY(-8px);
-    transition: max-height .3s cubic-bezier(.4,0,.2,1), opacity .25s ease, transform .25s ease;
+    transition: max-height .3s cubic-bezier(.4,0,.2,1), opacity .25s ease, transform .25s ease, visibility 0s linear .3s;
   }
   .mobile-nav.open {
     max-height: 400px;
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
+    transition: max-height .3s cubic-bezier(.4,0,.2,1), opacity .25s ease, transform .25s ease, visibility 0s;
   }
   .mobile-nav-inner {
     display: flex;
@@ -367,8 +371,14 @@ h3 { letter-spacing: -.025em; }
 
 /* About Me glass card uses unified system */
 .about-glass {
-  margin: -16px -20px;
   padding: 16px 20px;
+}
+
+/* On wide screens the negative margins keep the paragraph optically aligned with its
+   column while the card spreads past it. Below that the container gutter is too narrow
+   and the card would run off the viewport, so the card follows the column instead. */
+@media (min-width: 1200px) {
+  .about-glass { margin: -16px -20px; }
 }
 
 .timeline { margin-top: 56px; border-top: 1px solid var(--line); }
@@ -564,8 +574,8 @@ button.text-link.resume-link { background: none; border: 0; padding: 0; font-fam
 .cert-year { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border); color: var(--badge-text); font: 600 .72rem/1 "JetBrains Mono", monospace; }
 .profile-strip-inner { display: grid; grid-template-columns: 1fr .9fr; gap: 70px; align-items: center; }
 .profile-strip-inner h2 { max-width: 760px; }
-.strength-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-start; }
-.strength-list span { padding: 10px 16px; border: 1px solid var(--glass-border); border-radius: 999px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); color: var(--text-soft); font-size: .82rem; transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.strength-list { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; }
+.strength-list span { padding: 7px 13px; border: 1px solid var(--glass-border); border-radius: 999px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); color: var(--text-soft); font-size: .76rem; line-height: 1.25; white-space: nowrap; transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
 .strength-list span:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.2); border-color: var(--accent); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
 [data-theme="light"] .strength-list span { background: rgba(255, 255, 255, 0.45); }
 [data-theme="light"] .strength-list span:hover { background: rgba(255, 255, 255, 0.6); }

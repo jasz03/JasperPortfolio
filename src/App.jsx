@@ -2,6 +2,11 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import ShaderBackground from './components/ShaderBackground';
 import './styles.css';
 
+// The résumé keeps a stable, shareable URL, with a content hash from the build so a
+// replaced PDF is never masked by a cached copy (see vite.config.js).
+const RESUME_FILE = `${import.meta.env.BASE_URL}Leo_Jasper_Ladica_Resume.pdf`;
+const RESUME_URL = `${RESUME_FILE}?v=${__RESUME_VERSION__}`;
+
 function useThemeToggle() {
   const [theme, setTheme] = useState(() => {
     try {
@@ -84,6 +89,64 @@ export default function App(){
     document.body.style.overflow = menuOpen || resumeOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen, resumeOpen]);
+
+  // Fade sections in as they enter the viewport (pairs with the .js .reveal rules)
+  useEffect(() => {
+    const targets = Array.from(document.querySelectorAll('.reveal'));
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach((el) => el.classList.add('visible'));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        });
+      },
+      // threshold 0 so tall sections taller than the viewport still reveal
+      { threshold: 0, rootMargin: '0px 0px -60px 0px' }
+    );
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  // Scroll progress bar + back-to-top button
+  useEffect(() => {
+    const progressBar = document.getElementById('scroll-progress');
+    const backToTop = document.getElementById('back-to-top');
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const progress = max > 0 ? window.scrollY / max : 0;
+      if (progressBar) progressBar.style.transform = `scaleX(${progress})`;
+      if (backToTop) backToTop.classList.toggle('visible', window.scrollY > 600);
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+  }, []);
 
   return (
     <>
@@ -476,12 +539,16 @@ export default function App(){
           <p className="kicker">WORK STYLE</p>
           <h2>Reliable support. Clear documentation. Continuous improvement.</h2>
         </div>
-        <div className="strength-list" aria-label="Professional strengths">
-          <span>Problem-solving</span>
-          <span>Analytical thinking</span>
-          <span>Adaptability</span>
-          <span>Continuous learning</span>
-          <span>Attention to detail</span>
+        <div className="strength-list" aria-label="Strengths and expertise">
+          <span>IT Support &amp; Troubleshooting</span>
+          <span>System Administration</span>
+          <span>Active Directory</span>
+          <span>Network Monitoring &amp; Maintenance</span>
+          <span>Hardware &amp; Software Deployment</span>
+          <span>Windows &amp; Office 365</span>
+          <span>IT Asset Management</span>
+          <span>Root Cause Analysis</span>
+          <span>Adaptability &amp; Continuous Learning</span>
         </div>
       </div>
     </section>
@@ -510,12 +577,12 @@ export default function App(){
 
   <footer className="footer">
     <div className="container footer-inner">
-      <p>© <span id="year"></span> Leo Jasper V. Ladica. Built for the web.</p>
+      <p>© <span id="year">{new Date().getFullYear()}</span> Leo Jasper V. Ladica. Built for the web.</p>
       <a href="#top">Back to top ↑</a>
     </div>
   </footer>
 
-  <button className="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
+  <button className="back-to-top" id="back-to-top" type="button" aria-label="Back to top" onClick={scrollToTop}>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
   </button>
 
@@ -537,7 +604,7 @@ export default function App(){
 
         <iframe
           className="resume-modal-frame"
-          src="/Leo_Jasper_Ladica_Resume.pdf#view=FitH"
+          src={`${RESUME_URL}#view=FitH`}
           title="Résumé — Leo Jasper V. Ladica (PDF)"
           loading="lazy"
         ></iframe>
@@ -545,8 +612,8 @@ export default function App(){
         <div className="resume-modal-footer">
           <p>Having trouble viewing the embedded résumé?</p>
           <div className="resume-modal-actions">
-            <a className="btn btn-secondary" href="/Leo_Jasper_Ladica_Resume.pdf" target="_blank" rel="noopener">Open in new tab ↗</a>
-            <a className="btn btn-primary" href="/Leo_Jasper_Ladica_Resume.pdf" download="Leo_Jasper_Ladica_Resume.pdf">Download PDF</a>
+            <a className="btn btn-secondary" href={RESUME_URL} target="_blank" rel="noopener">Open in new tab ↗</a>
+            <a className="btn btn-primary" href={RESUME_URL} download="Leo_Jasper_Ladica_Resume.pdf">Download PDF</a>
           </div>
         </div>
       </div>

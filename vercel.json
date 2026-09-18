@@ -3,6 +3,15 @@
   "trailingSlash": false,
   "headers": [
     {
+      "source": "/Leo_Jasper_Ladica_Resume.pdf",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
