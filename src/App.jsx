@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import ShaderBackground from './components/ShaderBackground';
 import './styles.css';
 
@@ -36,16 +36,40 @@ function useThemeToggle() {
 export default function App(){
   const { theme, toggle: toggleTheme } = useThemeToggle();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const resumeTriggerRef = useRef(null);
+  const resumeCloseRef = useRef(null);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  // Close menu on Escape
+  // Open the résumé modal, remembering which control opened it so focus can return there
+  const openResume = useCallback((e) => {
+    resumeTriggerRef.current = e?.currentTarget ?? document.activeElement;
+    setResumeOpen(true);
+  }, []);
+
+  const closeResume = useCallback(() => {
+    setResumeOpen(false);
+    const trigger = resumeTriggerRef.current;
+    if (trigger && typeof trigger.focus === 'function') trigger.focus();
+  }, []);
+
+  // Close menu / résumé modal on Escape
   useEffect(() => {
-    if (!menuOpen) return;
-    const onKeyDown = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
+    if (!menuOpen && !resumeOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key !== 'Escape') return;
+      if (resumeOpen) closeResume();
+      else setMenuOpen(false);
+    };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [menuOpen]);
+  }, [menuOpen, resumeOpen, closeResume]);
+
+  // Move focus into the modal when it opens
+  useEffect(() => {
+    if (resumeOpen) resumeCloseRef.current?.focus();
+  }, [resumeOpen]);
 
   // Reset menu when resizing to desktop
   useEffect(() => {
@@ -55,11 +79,11 @@ export default function App(){
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
-  // Lock body scroll when menu is open
+  // Lock body scroll while the menu or the résumé modal is open
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    document.body.style.overflow = menuOpen || resumeOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
+  }, [menuOpen, resumeOpen]);
 
   return (
     <>
@@ -88,8 +112,8 @@ export default function App(){
 
       <div className="nav-controls">
         <button className="theme-toggle" type="button" aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} onClick={toggleTheme}>
-          <svg className="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          <svg className="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg className="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg className="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         </button>
         <button className={`menu-toggle${menuOpen ? ' is-open' : ''}`} type="button" aria-expanded={menuOpen} aria-controls="mobile-nav" aria-label={menuOpen ? 'Close menu' : 'Open menu'} onClick={() => setMenuOpen(o => !o)}>
           <span></span><span></span><span></span>
@@ -123,7 +147,7 @@ export default function App(){
         </p>
         <div className="hero-actions">
           <a className="btn btn-primary" href="#projects">View my work <span aria-hidden="true">↗</span></a>
-          <a className="btn btn-secondary" href="Leo_Jasper_Ladica_Resume.pdf" target="_blank" rel="noopener">View résumé</a>
+          <button className="btn btn-secondary" type="button" onClick={openResume}>View résumé</button>
           <a className="btn btn-secondary" href="#contact">Contact me</a>
         </div>
 
@@ -474,7 +498,7 @@ export default function App(){
           <a className="text-link" href="https://www.linkedin.com/in/leo-jasper-ladica-585182367" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           <a className="text-link" href="https://github.com/jasz03" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
           <a className="text-link" href="https://www.facebook.com/leojasper.ladica.1" target="_blank" rel="noopener noreferrer">Facebook ↗</a>
-          <a className="text-link" href="Leo_Jasper_Ladica_Resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+          <button className="text-link resume-link" type="button" onClick={openResume}>Résumé ↗</button>
         </div>
       </div>
       <div className="contact-meta reveal">
@@ -492,8 +516,42 @@ export default function App(){
   </footer>
 
   <button className="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
   </button>
+
+  {resumeOpen && (
+    <div className="resume-modal-backdrop" onClick={closeResume}>
+      <div
+        className="resume-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="resume-modal-title"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="resume-modal-header">
+          <h2 id="resume-modal-title">Résumé — Leo Jasper V. Ladica</h2>
+          <button className="resume-modal-close" type="button" aria-label="Close résumé" onClick={closeResume} ref={resumeCloseRef}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <iframe
+          className="resume-modal-frame"
+          src="/Leo_Jasper_Ladica_Resume.pdf#view=FitH"
+          title="Résumé — Leo Jasper V. Ladica (PDF)"
+          loading="lazy"
+        ></iframe>
+
+        <div className="resume-modal-footer">
+          <p>Having trouble viewing the embedded résumé?</p>
+          <div className="resume-modal-actions">
+            <a className="btn btn-secondary" href="/Leo_Jasper_Ladica_Resume.pdf" target="_blank" rel="noopener">Open in new tab ↗</a>
+            <a className="btn btn-primary" href="/Leo_Jasper_Ladica_Resume.pdf" download="Leo_Jasper_Ladica_Resume.pdf">Download PDF</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
 
   
 

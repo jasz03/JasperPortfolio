@@ -52,6 +52,8 @@
   --glass-border: rgba(255, 255, 255, 0.12);
   --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   --glass-blur: blur(12px);
+  /* Résumé modal surface — sits over a dimmed scrim, so it reads more opaque */
+  --modal-bg: rgba(10, 15, 27, 0.88);
 }
 
 :root[data-theme="light"] {
@@ -105,6 +107,8 @@
   --glass-border: rgba(255, 255, 255, 0.35);
   --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   --glass-blur: blur(12px);
+  /* Résumé modal surface — sits over a dimmed scrim, so it reads more opaque */
+  --modal-bg: rgba(255, 255, 255, 0.92);
 }
 
 * { box-sizing: border-box; }
@@ -325,10 +329,10 @@ h3 { letter-spacing: -.025em; }
 .hero-text { color: var(--text-body); font-size: 1.08rem; max-width: 690px; padding: 18px 22px; }
 .hero-text strong { color: var(--text); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 34px 0 42px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 13px; font-weight: 700; font-size: .94rem; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 13px; font-family: inherit; font-weight: 700; font-size: .94rem; cursor: pointer; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
 .btn:hover { transform: translateY(-2px); }
 .btn-primary { background: var(--accent); color: var(--on-accent); }
-.btn-secondary { border: 1px solid var(--line); background: var(--btn-secondary-bg); }
+.btn-secondary { border: 1px solid var(--line); background: var(--btn-secondary-bg); color: var(--text); }
 
 .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding-top: 24px; border-top: 1px solid var(--line); }
 .hero-stats div { display: grid; gap: 4px; }
@@ -446,6 +450,8 @@ h3 { letter-spacing: -.025em; }
 .contact-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 17px; }
 .text-link { color: var(--link-text); font-weight: 600; }
 .text-link:hover { color: var(--accent); }
+/* Résumé trigger rendered as a <button> so it can open the modal without navigating */
+button.text-link.resume-link { background: none; border: 0; padding: 0; font-family: inherit; font-size: inherit; font-weight: 600; cursor: pointer; }
 .contact-note { margin: 16px 0 0; color: #6b7280; font-size: .78rem; text-align: center; }
 
 .footer { border-top: 1px solid var(--line); }
@@ -637,6 +643,7 @@ h3 { letter-spacing: -.025em; }
   .theme-toggle,
   .menu-toggle,
   .mobile-nav,
+  .resume-modal-backdrop,
   .hero-panel,
   .project-visual,
   .footer { display: none !important; }
@@ -697,4 +704,103 @@ h3 { letter-spacing: -.025em; }
 .portfolio-layer {
  position:relative;
  z-index:1;
+}
+
+/* ===== Résumé modal — glass panel with the PDF embedded ===== */
+.resume-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: rgba(3, 7, 14, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: resume-backdrop-in .2s ease both;
+}
+
+.resume-modal {
+  display: flex;
+  flex-direction: column;
+  width: min(980px, 100%);
+  height: min(86vh, 920px);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  background: var(--modal-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow), 0 30px 80px rgba(0, 0, 0, 0.45);
+  animation: resume-modal-in .26s var(--expo-out) both;
+}
+
+.resume-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--glass-border);
+}
+.resume-modal-header h2 { margin: 0; font-size: 1rem; font-weight: 700; letter-spacing: -.01em; }
+
+.resume-modal-close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--btn-secondary-bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, color .2s ease;
+}
+.resume-modal-close:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+.resume-modal-close svg { width: 18px; height: 18px; }
+
+.resume-modal-frame { flex: 1; width: 100%; min-height: 0; border: 0; background: #ffffff; }
+
+.resume-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--glass-border);
+}
+.resume-modal-footer p { margin: 0; color: var(--muted); font-size: .82rem; }
+.resume-modal-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.resume-modal-actions .btn { min-height: 40px; padding: 0 16px; font-size: .85rem; }
+
+@keyframes resume-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes resume-modal-in {
+  from { opacity: 0; transform: translateY(10px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 767px) {
+  .resume-modal-backdrop { padding: 0; }
+  .resume-modal {
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+  .resume-modal-header { position: sticky; top: 0; z-index: 1; background: var(--modal-bg); }
+  .resume-modal-close { width: 44px; height: 44px; }
+  /* Framed PDFs are unreliable on iOS Safari, so the fallback stays front and centre */
+  .resume-modal-footer { flex-direction: column; align-items: stretch; text-align: center; }
+  .resume-modal-actions { justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-modal-backdrop,
+  .resume-modal { animation: none !important; }
+  .resume-modal-close { transition: none; }
+  .resume-modal-close:hover { transform: none; }
 }
