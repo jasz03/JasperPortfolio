@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -20,6 +20,16 @@ try {
 } catch {
   throw new Error(
     `Résumé PDF not found at public/Leo_Jasper_Ladica_Resume.pdf — the build cannot produce a working résumé link.`
+  );
+}
+
+// The social preview card is committed rather than generated during the build:
+// this build runs Node only and has no Python/Pillow. Verify it exists so the
+// og:image meta tag can never ship pointing at a 404.
+const ogImagePath = fileURLToPath(new URL('./public/og-image.png', import.meta.url));
+if (!existsSync(ogImagePath)) {
+  throw new Error(
+    'Social preview image not found at public/og-image.png — regenerate it with `python scripts/generate_og_image.py`.'
   );
 }
 

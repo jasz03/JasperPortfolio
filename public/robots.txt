@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jasper-portfolio-puce.vercel.app/sitemap.xml

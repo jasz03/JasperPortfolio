@@ -44,6 +44,7 @@ export default function App(){
   const [resumeOpen, setResumeOpen] = useState(false);
   const resumeTriggerRef = useRef(null);
   const resumeCloseRef = useRef(null);
+  const resumeModalRef = useRef(null);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
@@ -53,11 +54,18 @@ export default function App(){
     setResumeOpen(true);
   }, []);
 
-  const closeResume = useCallback(() => {
-    setResumeOpen(false);
+  const closeResume = useCallback(() => setResumeOpen(false), []);
+
+  // Return focus to whatever opened the dialog. This has to wait until React has
+  // removed `inert` from the background: the browser refuses to focus an element
+  // that is still inside an inert subtree.
+  useEffect(() => {
+    if (resumeOpen) return;
     const trigger = resumeTriggerRef.current;
-    if (trigger && typeof trigger.focus === 'function') trigger.focus();
-  }, []);
+    if (!trigger) return;
+    resumeTriggerRef.current = null;
+    trigger.focus();
+  }, [resumeOpen]);
 
   // Close menu / résumé modal on Escape
   useEffect(() => {
@@ -74,6 +82,33 @@ export default function App(){
   // Move focus into the modal when it opens
   useEffect(() => {
     if (resumeOpen) resumeCloseRef.current?.focus();
+  }, [resumeOpen]);
+
+  // Trap Tab inside the résumé dialog so focus cannot reach the page behind it
+  useEffect(() => {
+    if (!resumeOpen) return;
+    const FOCUSABLE = 'a[href], button:not([disabled]), iframe, input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const onKeyDown = (e) => {
+      if (e.key !== 'Tab') return;
+      const modal = resumeModalRef.current;
+      if (!modal) return;
+      const items = Array.from(modal.querySelectorAll(FOCUSABLE));
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      const inside = modal.contains(active);
+      // Wrap at both ends, and pull focus back if it escaped the dialog entirely
+      if (e.shiftKey && (!inside || active === first)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (!inside || active === last)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown, true);
+    return () => document.removeEventListener('keydown', onKeyDown, true);
   }, [resumeOpen]);
 
   // Reset menu when resizing to desktop
@@ -148,6 +183,10 @@ export default function App(){
     window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
   }, []);
 
+  // While the résumé dialog is open, everything behind it is inert and hidden from
+  // assistive tech, so neither Tab nor a screen reader can leave the dialog.
+  const backgroundProps = resumeOpen ? { inert: true, 'aria-hidden': true } : {};
+
   return (
     <>
       <ShaderBackground />
@@ -157,7 +196,7 @@ export default function App(){
   <div className="page-glow glow-one"></div>
   <div className="page-glow glow-two"></div>
 
-  <header className="site-header">
+  <header className="site-header" {...backgroundProps}>
     <nav className="nav container" aria-label="Main navigation">
       <a className="brand" href="#top" aria-label="Leo Jasper Ladica home">
         <span className="brand-mark">LJ</span>
@@ -197,7 +236,7 @@ export default function App(){
     </div>
   </header>
 
-  <main>
+  <main {...backgroundProps}>
     <section className="hero section container">
       <div className="hero-copy reveal">
         <div className="eyebrow"><span className="status-dot"></span> Davao City, Philippines · Open to opportunities</div>
@@ -438,6 +477,7 @@ export default function App(){
               improving its interface and workflows to make day-to-day use cleaner and more consistent.
             </p>
             <div className="tags"><span>React</span><span>Vite</span><span>FastAPI</span><span>PostgreSQL</span><span>SQLite</span><span>JWT Auth</span><span>Alembic</span><span>GitHub Actions</span></div>
+            <p className="project-note">Private internal system — code not publicly available.</p>
           </div>
         </article>
 
@@ -464,7 +504,7 @@ export default function App(){
               offline-capable PWA frontend.
             </p>
             <div className="tags"><span>Next.js</span><span>NestJS</span><span>PostgreSQL</span><span>Redis</span><span>TypeScript</span></div>
-            <a className="text-link project-link" href="https://github.com/jasz03/Retail-Pos" target="_blank" rel="noopener">View on GitHub ↗</a>
+            <p className="project-note">Private project — code not publicly available.</p>
           </div>
         </article>
 
@@ -575,14 +615,14 @@ export default function App(){
     </section>
   </main>
 
-  <footer className="footer">
+  <footer className="footer" {...backgroundProps}>
     <div className="container footer-inner">
       <p>© <span id="year">{new Date().getFullYear()}</span> Leo Jasper V. Ladica. Built for the web.</p>
       <a href="#top">Back to top ↑</a>
     </div>
   </footer>
 
-  <button className="back-to-top" id="back-to-top" type="button" aria-label="Back to top" onClick={scrollToTop}>
+  <button className="back-to-top" id="back-to-top" type="button" aria-label="Back to top" onClick={scrollToTop} {...backgroundProps}>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
   </button>
 
@@ -593,6 +633,7 @@ export default function App(){
         role="dialog"
         aria-modal="true"
         aria-labelledby="resume-modal-title"
+        ref={resumeModalRef}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="resume-modal-header">

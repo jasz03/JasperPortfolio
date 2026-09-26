@@ -1,3 +1,22 @@
+/* Self-hosted variable fonts. The design depends on Inter and JetBrains Mono, so
+   they ship with the site rather than relying on the visitor's device. Latin
+   subsets; the weight axis covers every weight these styles ask for. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/inter-latin-var.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin-var.woff2") format("woff2");
+}
+
 :root {
   --expo-out: cubic-bezier(0.16, 1, 0.3, 1);
   --bg: #080b14;
@@ -411,23 +430,8 @@ h3 { letter-spacing: -.025em; }
 .project-visual { min-height: 390px; padding: 34px; display: grid; place-items: center; border-right: 1px solid var(--line); }
 .visual-ticket { background: var(--visual-ticket-bg); }
 .visual-pos { background: var(--visual-pos-bg); }
-.fake-window-pos { transform: rotate(2deg); }
-.fake-window-pos .fake-buttons i:first-child { background: rgba(96,165,250,.45); }
-.project-copy .project-link { display: inline-block; margin-top: 20px; font-size: .9rem; }
-.fake-window { width: min(500px, 100%); border-radius: 16px; border: 1px solid rgba(255,255,255,.1); background: #0b1120; overflow: hidden; box-shadow: 0 22px 55px rgba(0,0,0,.3); transform: rotate(-2deg); }
-.fake-window-top { display: flex; gap: 6px; padding: 11px 13px; border-bottom: 1px solid var(--line); }
-.fake-window-top span { width: 8px; height: 8px; border-radius: 50%; background: #334155; }
-.fake-layout { display: grid; grid-template-columns: 92px 1fr; min-height: 275px; }
-.fake-sidebar { background: #0f172a; border-right: 1px solid var(--line); }
-.fake-main { padding: 28px; }
-.fake-title, .fake-row, .fake-buttons i { display: block; border-radius: 7px; background: #1e293b; }
-.fake-title { width: 42%; height: 14px; background: #334155; margin-bottom: 28px; }
-.fake-row { width: 72%; height: 35px; margin-bottom: 13px; }
-.fake-row.wide { width: 100%; height: 72px; }
-.fake-buttons { display: flex; gap: 9px; margin-top: 28px; }
-.fake-buttons i { width: 68px; height: 27px; }
-.fake-buttons i:first-child { background: rgba(110,231,183,.45); }
-
+.project-copy .project-note { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font: 500 .78rem/1.5 "JetBrains Mono", monospace; letter-spacing: .02em; display: flex; align-items: center; gap: 8px; }
+.project-copy .project-note::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); opacity: .8; }
 /* Real UI screenshots — browser-window style frames */
 .screenshot-stack { width: 100%; display: grid; gap: 22px; }
 .screenshot-frame {
@@ -462,7 +466,6 @@ h3 { letter-spacing: -.025em; }
 .text-link:hover { color: var(--accent); }
 /* Résumé trigger rendered as a <button> so it can open the modal without navigating */
 button.text-link.resume-link { background: none; border: 0; padding: 0; font-family: inherit; font-size: inherit; font-weight: 600; cursor: pointer; }
-.contact-note { margin: 16px 0 0; color: #6b7280; font-size: .78rem; text-align: center; }
 
 .footer { border-top: 1px solid var(--line); }
 .footer-inner { min-height: 86px; display: flex; align-items: center; justify-content: space-between; color: var(--footer-text); font-size: .82rem; }
@@ -542,8 +545,6 @@ button.text-link.resume-link { background: none; border: 0; padding: 0; font-fam
   .timeline-item { grid-template-columns: 18px 1fr; }
   .timeline-card { grid-template-columns: 1fr; }
   .project-visual { min-height: 310px; padding: 22px; }
-  .fake-layout { min-height: 225px; grid-template-columns: 65px 1fr; }
-  .fake-main { padding: 20px; }
   .featured .project-copy, .project-copy { padding: 26px; }
   .contact-card { padding: 30px; }
   .footer-inner { flex-direction: column; justify-content: center; gap: 8px; }
@@ -683,7 +684,7 @@ button.text-link.resume-link { background: none; border: 0; padding: 0; font-fam
   .project-card, .skill-card, .cert-card, .contact-card, .education-card, .timeline-item { break-inside: avoid; page-break-inside: avoid; }
 
   /* Neutralize decorative tilts */
-  .terminal-card, .fake-window, .fake-window-pos { transform: none; }
+  .terminal-card { transform: none; }
 
   /* Show destinations for external links */
   a[href^="http"]::after,
