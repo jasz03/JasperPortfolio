@@ -441,6 +441,12 @@ export default function App(){
             <p>Problem-solving, analytical thinking, adaptability, continuous learning, and attention to detail.</p>
             <div className="tags"><span>Problem Solving</span><span>Analytical</span><span>Adaptability</span><span>Detail-oriented</span></div>
           </article>
+          <article className="skill-card glass-card">
+            <div className="skill-number">07</div>
+            <h3>AI Tools &amp; Workflow</h3>
+            <p>Troubleshooting and building with AI assistants — using them to debug code, research technical solutions, write documentation, and speed up repetitive IT and development tasks.</p>
+            <div className="tags"><span>ChatGPT</span><span>Claude</span><span>Freebuff</span><span>Prompt Engineering</span></div>
+          </article>
         </div>
       </div>
     </section>
