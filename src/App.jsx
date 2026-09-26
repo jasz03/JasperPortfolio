@@ -326,12 +326,12 @@ export default function App(){
             </div>
             <div className="timeline-content">
               <ul>
-                <li>Monitor and maintain network infrastructure to support stable connectivity and reliable day-to-day operations.</li>
-                <li>Monitor and maintain ICT hardware, network devices, and IT equipment for optimal performance.</li>
+                <li>Monitor and maintain network infrastructure to ensure system stability, connectivity, and reliable operations.</li>
+                <li>Monitor and maintain ICT hardware, network devices, and IT equipment to ensure optimal performance.</li>
                 <li>Configure, deploy, troubleshoot, and maintain desktop computers, laptops, printers, and other IT devices.</li>
-                <li>Provide technical support for hardware, software, network, and user-related issues.</li>
-                <li>Administer Active Directory, including account creation, password resets, permissions, and user/group management.</li>
-                <li>Maintain IT asset inventory and technical documentation.</li>
+                <li>Provide technical support by resolving hardware, software, network, and user-related issues.</li>
+                <li>Administer and manage Active Directory, including user account creation, password resets, account permissions, and user/group management.</li>
+                <li>Maintain IT asset inventory and documentation.</li>
               </ul>
             </div>
           </div>
