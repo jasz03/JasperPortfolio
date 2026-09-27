@@ -46,6 +46,7 @@ const GROUPS = [
       { name: 'Git', icon: 'git' },
       { name: 'GitHub', icon: 'github' },
       { name: 'GitHub Actions', icon: 'githubactions' },
+      { name: 'Vercel', icon: 'vercel-light' },
       { name: 'AWS', icon: 'aws' },
       { name: 'Vite', icon: 'vite' },
     ],
