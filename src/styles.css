@@ -416,8 +416,78 @@ h3 { letter-spacing: -.025em; }
 .skill-number { color: var(--accent); font: 600 .76rem/1 "JetBrains Mono", monospace; margin-bottom: 44px; }
 .skill-card h3 { font-size: 1.2rem; margin-bottom: 12px; }
 .skill-card p { color: var(--muted); font-size: .9rem; }
+/* The seventh card is the only one in its row. Column 2 of the three-column grid
+   is the middle, which keeps the section ending balanced instead of trailing off
+   to the left. The :last-child half makes the rule switch itself off if the card
+   count ever changes, rather than shunting the wrong card sideways. */
+.skill-card:nth-child(7):last-child { grid-column: 2; }
 .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
 .tags span { border: 1px solid var(--line); border-radius: 999px; padding: 5px 9px; color: var(--tag-text); font-size: .7rem; }
+
+/* ── Tech stack wall ─────────────────────────────────────────────────────────
+   The single index of technology names on the page. The skill cards under the
+   divider below carry the how; this carries the what, so the cards no longer
+   need tag rows repeating the same names. */
+.tech-stack { margin-top: 46px; }
+.stack-title { font-size: 1.3rem; margin: 0 0 10px; letter-spacing: -.02em; }
+/* --text-body rather than --muted: this line sits directly on the animated
+   backdrop, where muted grey disappears into the light-theme shader glow. */
+.stack-subtitle { color: var(--text-body); font-size: .95rem; max-width: 640px; margin: 0 0 32px; }
+.stack-group { margin-top: 26px; }
+.stack-group-title { font: 600 .72rem/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .13em; color: var(--accent); margin: 0 0 14px; }
+.stack-chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.tech-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--text-soft);
+  font-size: .84rem;
+  line-height: 1.2;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, color .2s ease;
+}
+.tech-chip:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--text); box-shadow: 0 4px 14px rgba(0, 0, 0, .18); }
+[data-theme="light"] .tech-chip { background: rgba(255, 255, 255, 0.55); }
+[data-theme="light"] .tech-chip:hover { box-shadow: 0 4px 14px rgba(15, 23, 42, .08); }
+/* Logos are the official Simple Icons files used as alpha masks, so one
+   currentColor paints them and they follow the theme automatically. Entries with
+   no glyph simply omit this element and render as text chips in the same shell. */
+.tech-chip-icon {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  background-color: currentColor;
+  -webkit-mask: var(--tech-icon) center / contain no-repeat;
+  mask: var(--tech-icon) center / contain no-repeat;
+}
+/* A few marks are shown rather than masked. Their letters are painted opaquely on
+   top of the artwork, so an alpha mask flattens them into a solid block; painting
+   the file itself keeps the letter. grayscale holds them in the wall's palette
+   whatever the file contains, and the dark-theme invert lifts dark artwork off
+   the dark chip surface — the same light-figure-on-dark reading the masked icons
+   have. Drop asImage from the entry to go back to the mask treatment. */
+.tech-chip-icon.as-image {
+  background-color: transparent;
+  -webkit-mask: none;
+  mask: none;
+  background-image: var(--tech-icon);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  filter: grayscale(1);
+}
+[data-theme="dark"] .tech-chip-icon.as-image {
+  filter: grayscale(1) invert(1);
+}
+/* The divider states the relationship between the wall and the cards, so two
+   stacked skill blocks do not read as competing lists. */
+.stack-divider { margin: 56px 0 0; padding-top: 26px; border-top: 1px solid var(--line); font: 600 .74rem/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .13em; color: var(--text-soft); }
+.stack-divider + .skills-grid { margin-top: 24px; }
 
 .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 50px; }
 .project-card { border-radius: var(--radius); overflow: hidden; }
@@ -524,6 +594,8 @@ button.text-link.resume-link { background: none; border: 0; padding: 0; font-fam
   .hero-visual-group { width: min(100%, 500px); min-width: 0; }
   .split-layout, .education-card, .contact-card { grid-template-columns: 1fr; gap: 36px; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  /* Two columns have no middle, so the seventh card goes back to the left */
+  .skill-card:nth-child(7):last-child { grid-column: auto; }
   .project-card.featured { grid-template-columns: 1fr; }
   .project-visual { border-right: 0; border-bottom: 1px solid var(--line); }
   .timeline-item { grid-template-columns: 22px 220px 1fr; }
@@ -542,6 +614,11 @@ button.text-link.resume-link { background: none; border: 0; padding: 0; font-fam
   .floating-top { top: -8px; right: -5px; }
   .floating-bottom { bottom: -35px; left: 0; }
   .skills-grid, .projects-grid { grid-template-columns: 1fr; }
+  .tech-stack { margin-top: 34px; }
+  .stack-group { margin-top: 22px; }
+  .stack-subtitle { margin-bottom: 26px; }
+  .tech-chip { gap: 7px; padding: 8px 12px; font-size: .8rem; }
+  .stack-divider { margin-top: 42px; padding-top: 22px; }
   .timeline-item { grid-template-columns: 18px 1fr; }
   .timeline-card { grid-template-columns: 1fr; }
   .project-visual { min-height: 310px; padding: 22px; }
@@ -553,7 +630,8 @@ button.text-link.resume-link { background: none; border: 0; padding: 0; font-fam
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
-  .btn, .skill-card, .project-card, .cert-card { transition: none; }
+  .btn, .skill-card, .project-card, .cert-card, .tech-chip { transition: none; }
+  .tech-chip:hover { transform: none; }
   .back-to-top { transition: opacity .2s ease; }
   .theme-toggle svg { transition: opacity .15s ease; transform: none !important; }
   .theme-toggle { transition: border-color .15s ease, color .15s ease; }
@@ -671,17 +749,27 @@ button.text-link.resume-link { background: none; border: 0; padding: 0; font-fam
   .timeline-item { grid-template-columns: 18px 1fr; gap: 14px; padding: 18px 0; }
   .timeline-content { grid-column: 2; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); margin-top: 20px; }
+  /* Print uses two columns too, so the last row must not start with a gap */
+  .skill-card:nth-child(7):last-child { grid-column: auto; }
   .skill-card { min-height: 0; }
   .projects-grid { grid-template-columns: 1fr; margin-top: 20px; }
   .project-card.featured { grid-template-columns: 1fr; }
   .cert-grid { grid-template-columns: repeat(3, 1fr); margin-top: 20px; }
   .cert-card { min-height: 0; }
+  .tech-stack { margin-top: 16px; }
+  .stack-subtitle { margin-bottom: 14px; }
+  .stack-group { margin-top: 14px; }
+  .stack-chips { gap: 6px; }
+  .tech-chip { gap: 6px; padding: 5px 10px; border-radius: 10px; font-size: .74rem; }
+  .stack-divider { margin-top: 18px; padding-top: 12px; }
+  /* Masked logos are unreliable in print, so the names carry the wall instead */
+  .tech-chip-icon { display: none; }
   .education-card { grid-template-columns: 1fr; gap: 10px; }
   .contact-card { grid-template-columns: 1fr; gap: 18px; padding: 26px; }
   .contact-section { padding-bottom: 30px; }
 
   /* Keep cards together on a page instead of splitting across pages */
-  .project-card, .skill-card, .cert-card, .contact-card, .education-card, .timeline-item { break-inside: avoid; page-break-inside: avoid; }
+  .project-card, .skill-card, .cert-card, .contact-card, .education-card, .timeline-item, .stack-group { break-inside: avoid; page-break-inside: avoid; }
 
   /* Neutralize decorative tilts */
   .terminal-card { transform: none; }

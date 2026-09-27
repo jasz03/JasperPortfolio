@@ -41,10 +41,70 @@ filename or updating both the `@font-face` `src` and the preload links. The rang
 in `font-weight` must match the file's variable axis: Inter is 100–900, JetBrains
 Mono is 100–800.
 
+## Tech stack wall
+
+The chip wall at the top of the Skills section is the **single place on the page
+that names technologies**. `src/components/TechStack.jsx` holds the grouped list;
+the seven skill cards below it describe how that work is actually done, which is
+why they no longer repeat the names in tag rows. Only one tag row remains there —
+the working-strengths card — because those are not technologies.
+
+To add or remove a technology, edit the `GROUPS` array in `TechStack.jsx`.
+
+### Icons
+
+Logos live in `public/icons/`. Most are applied as CSS alpha masks, so a single
+`currentColor` paints them and both themes work with no per-icon CSS and no
+light/dark asset variants. Two are shown instead — see **Two render modes** below.
+
+Most icons are **unmodified Simple Icons SVGs** (CC0). The rest were added by hand
+because Simple Icons has no such glyph: `aws`, `windows` and `chatgpt` from other
+sources, `microsoftword` and `microsoftexcel` as greyscale re-colours of the
+official Microsoft marks, and `sql` and `canva` (both modified, see below).
+
+### Two render modes
+
+Masking is the default, but it cannot show every mark. `microsoftword` and
+`microsoftexcel` are **shown** instead of masked: their letters are painted
+opaquely on top of the artwork, so an alpha mask flattens the whole logo into a
+solid block and the letter vanishes. Those two entries carry `asImage: true` in
+`TechStack.jsx`, which paints the file in `.tech-chip-icon.as-image`:
+
+- `filter: grayscale(1)` keeps them in the wall's greyscale palette whatever the
+  file contains, so a coloured export still renders grey.
+- `[data-theme="dark"]` adds `invert(1)`, so the dark artwork reads as a light
+  figure on the dark chip, the same way the masked icons do. Without it the mark
+  disappears into the background in dark mode.
+
+To go back to the mask treatment for one of them, drop its `asImage: true` — but
+expect a solid block, not a letter, because the letter is opaque.
+
+**`sql` and `canva` are modified vendor downloads.** Both paint their detail in
+white (or an opaque light gradient) on top of coloured shapes, so each carries a
+hand-added `<mask id="knockout">` that re-declares the glyph in black, punching
+it out as a transparent hole. There is a comment in each file explaining this at
+the point that matters. If you drop in a fresh download of either, redo the
+knockout or it will render as a plain square.
+
+Brand marks belong to their respective owners.
+
+To add one, drop the SVG into `public/icons/` and reference its filename without
+the extension (`{ name: 'Redis', icon: 'redis' }`), or download it from
+<https://simpleicons.org> using its slug.
+
+**Entries with no icon are intentional, not broken.** Five have no usable mark:
+Active Directory, Office 365 and Freebuff are absent from Simple Icons (verified
+absent: `activedirectory`, `microsoftwindows`, `microsoftoffice`, `openai`), and
+Endpoint & Hardware and Network Monitoring are concepts with no product mark at
+all. Those render as text chips in the same shell, so the wall still reads as one
+system. Masks are also hidden in print, since masked logos do not render reliably
+on paper.
+
 ## SEO and the social preview card
 
 `index.html` carries the canonical URL, meta description, Open Graph and Twitter
-card tags, and JSON-LD `Person`/`WebSite` data. The canonical origin is
+card tags, and JSON-LD `Person`/`WebSite` data. Its `knowsAbout` list mirrors the
+tech stack wall — update it alongside `TechStack.jsx` when the stack changes. The canonical origin is
 **https://jasper-portfolio-puce.vercel.app** and it is hard-coded in three
 places — change them together when the domain changes:
 

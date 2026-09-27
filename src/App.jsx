@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import ShaderBackground from './components/ShaderBackground';
+import TechStack from './components/TechStack';
 import './styles.css';
 
 // The résumé keeps a stable, shareable URL, with a content hash from the build so a
@@ -404,48 +405,50 @@ export default function App(){
           <h2>A practical IT toolkit</h2>
         </div>
 
+        {/* The stack wall is the single index of technology names on this page; the
+            divider marks where the cards start explaining how that work is done. */}
+        <TechStack />
+
+        <h3 className="stack-divider">How I apply it</h3>
+
         <div className="skills-grid reveal">
           <article className="skill-card glass-card">
             <div className="skill-number">01</div>
             <h3>IT Support</h3>
             <p>Desktop and laptop troubleshooting, hardware and software support, printer support, diagnostics, and user assistance.</p>
-            <div className="tags"><span>Windows</span><span>Hardware</span><span>Software</span><span>End-user Support</span></div>
           </article>
           <article className="skill-card glass-card">
             <div className="skill-number">02</div>
             <h3>Systems & Access</h3>
             <p>User account administration, password resets, permissions, group management, and endpoint configuration.</p>
-            <div className="tags"><span>Active Directory</span><span>User Accounts</span><span>Permissions</span><span>Endpoints</span></div>
           </article>
           <article className="skill-card glass-card">
             <div className="skill-number">03</div>
             <h3>Networking</h3>
             <p>Network infrastructure monitoring, connectivity troubleshooting, network-device maintenance, and issue isolation.</p>
-            <div className="tags"><span>Network Monitoring</span><span>Connectivity</span><span>Network Devices</span><span>Troubleshooting</span></div>
           </article>
           <article className="skill-card glass-card">
             <div className="skill-number">04</div>
             <h3>Full-Stack Development</h3>
             <p>Building complete applications — from React frontends to REST APIs, authentication, and database-backed backends.</p>
-            <div className="tags"><span>React</span><span>Next.js</span><span>FastAPI</span><span>NestJS</span><span>PostgreSQL</span><span>TypeScript</span></div>
           </article>
           <article className="skill-card glass-card">
             <div className="skill-number">05</div>
             <h3>Productivity & Design</h3>
             <p>Creating and maintaining clear business documents, spreadsheets, presentations, and visual materials.</p>
-            <div className="tags"><span>Microsoft Word</span><span>Excel</span><span>Canva</span><span>Documentation</span></div>
           </article>
           <article className="skill-card glass-card">
             <div className="skill-number">06</div>
             <h3>Professional Strengths</h3>
             <p>Problem-solving, analytical thinking, adaptability, continuous learning, and attention to detail.</p>
+            {/* The only tag row left in this section: these are working strengths rather
+                than technologies, so the stack wall above does not list them. */}
             <div className="tags"><span>Problem Solving</span><span>Analytical</span><span>Adaptability</span><span>Detail-oriented</span></div>
           </article>
           <article className="skill-card glass-card">
             <div className="skill-number">07</div>
             <h3>AI Tools &amp; Workflow</h3>
             <p>Troubleshooting and building with AI assistants — using them to debug code, research technical solutions, write documentation, and speed up repetitive IT and development tasks.</p>
-            <div className="tags"><span>ChatGPT</span><span>Claude</span><span>Freebuff</span><span>Prompt Engineering</span></div>
           </article>
         </div>
       </div>
