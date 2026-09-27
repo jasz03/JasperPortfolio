@@ -105,17 +105,20 @@ on paper.
 `index.html` carries the canonical URL, meta description, Open Graph and Twitter
 card tags, and JSON-LD `Person`/`WebSite` data. Its `knowsAbout` list mirrors the
 tech stack wall — update it alongside `TechStack.jsx` when the stack changes. The canonical origin is
-**https://jasper-portfolio-puce.vercel.app** and it is hard-coded in three
-places — change them together when the domain changes:
+**https://jasperladica.vercel.app** and it is hard-coded in four places — change
+them together when the domain changes, or crawlers and link previews will point
+at a domain that does not serve the site:
 
-- `index.html` (canonical, `og:url`, `og:image`, `twitter:image`, JSON-LD)
+- `index.html` (canonical, `og:url`, `twitter:url`, `og:image`, `twitter:image`, JSON-LD)
 - `public/robots.txt` (the `Sitemap:` line)
 - `public/sitemap.xml` (the `<loc>` entry)
+- `scripts/generate_og_image.py` (`SITE`) — the domain is drawn **into the card
+  image**, so the PNG has to be regenerated, not just re-tagged
 
 `public/og-image.png` is the 1200×630 card that link previews show. It is
 **committed on purpose**, because the deploy build runs Node only and has no
-image tooling. Regenerate it after changing the card copy or the colour tokens in
-`src/styles.css`:
+image tooling. Regenerate it after changing the card copy, the `SITE` value, or
+the colour tokens in `src/styles.css`:
 
 ```bash
 pip install pillow
@@ -124,6 +127,46 @@ python scripts/generate_og_image.py
 
 `npm run build` fails if that PNG is missing, so the `og:image` tag can never
 ship pointing at a 404.
+
+`public/sitemap.xml` deliberately carries **no `lastmod`**: it is a single static
+page, and the date that used to be hardcoded there only ever aged into a wrong
+freshness signal. Search engines ignore `lastmod` they cannot trust, so omitting
+it is more honest than guessing. If the site ever grows multiple pages, generate
+the sitemap at build time instead of hand-writing dates.
+
+## Images
+
+Project screenshots live in `public/images/` as **WebP**, and `public/apple-touch-icon.png`
+is committed alongside the SVG favicon. Both are produced by one script:
+
+```bash
+python scripts/prepare_images.py
+```
+
+- **Screenshots.** The four UI captures are the largest part of the page weight;
+  at quality 90 WebP takes them from ~1.0 MB to ~165 kB with no visible change on
+  flat UI colours and small text. The HTML references the `.webp` files directly
+  — no PNG fallback is committed, because WebP is supported by every browser this
+  site targets and a fallback would double the repo for a file nobody requests.
+  The script skips any screenshot whose source PNG has already been converted, so
+  re-running it is safe. Do not compress the logo SVGs in `public/icons/`: they are
+  masks and measure in single-digit kB already.
+- **Apple touch icon.** iOS ignores SVG favicons and shows a page screenshot
+  instead. The mark is redrawn at 180×180, full-bleed and without transparency,
+  because iOS applies its own corner mask and transparent corners surface as
+  black.
+
+The captions on the screenshots carry the project and stack they show, so the alt
+text describes the work rather than the file.
+
+## Reduced motion
+
+The site honours `prefers-reduced-motion`. CSS handles the fades and slides, and
+`src/components/ShaderBackground.jsx` unmounts the WebGL background entirely when
+the preference is set, rendering the static `.shader-static` gradient from
+`styles.css` instead. Unmounting matters: hiding the canvas with CSS would leave
+its render loop running and still cost CPU and battery. The preference is watched
+live, so toggling it in the OS updates the page without a reload.
 
 ## Updating the résumé
 

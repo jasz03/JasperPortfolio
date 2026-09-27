@@ -52,7 +52,7 @@ BODY = [
 ]
 EMAIL = "leojasperladica0@gmail.com"
 LOCATION = "Davao City, Philippines"
-SITE = "jasper-portfolio-puce.vercel.app"
+SITE = "jasperladica.vercel.app"
 TERMINAL = [
     ("prompt", "$ cat expertise.txt"),
     ("output", "Active Directory"),

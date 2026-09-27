@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- One page, one URL. `lastmod` is deliberately absent: it used to carry a
+     hardcoded date that aged into a wrong freshness signal, and search engines
+     ignore lastmod when it cannot be trusted. A single static page has nothing
+     useful to say about modification time, so the honest value here is none. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jasper-portfolio-puce.vercel.app/</loc>
-    <lastmod>2026-09-26</lastmod>
+    <loc>https://jasperladica.vercel.app/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

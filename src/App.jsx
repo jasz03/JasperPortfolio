@@ -241,12 +241,14 @@ export default function App(){
     <section className="hero section container">
       <div className="hero-copy reveal">
         <div className="eyebrow"><span className="status-dot"></span> Davao City, Philippines · Open to opportunities</div>
-        <p className="kicker">IT SUPPORT · SYSTEMS · NETWORKING · FULL-STACK</p>
-        <h1>I keep technology reliable and make systems easier to use.</h1>
+        <p className="kicker">IT SUPPORT SPECIALIST · FULL-STACK DEVELOPER</p>
+        <h1>I keep technology reliable and build the web applications that make work easier.</h1>
         <p className="hero-text glass-card">
-          I’m <strong>Leo Jasper V. Ladica</strong>, an Information Technology professional with hands-on experience in IT support,
-          system monitoring, network maintenance, desktop troubleshooting, Active Directory, and full-stack development.
-          I focus on dependable technical support and practical improvements that help business operations run smoothly.
+          I’m <strong>Leo Jasper V. Ladica</strong> — an IT support specialist and full-stack developer in Davao City.
+          I spend my days troubleshooting hardware, software, and network problems, administering Active Directory
+          accounts and endpoints, and monitoring ICT infrastructure — then building web applications, including an
+          internal ticketing system and a retail point-of-sale system built end to end in React, FastAPI, NestJS, and
+          PostgreSQL. I care about dependable support and practical fixes that keep daily operations running smoothly.
         </p>
         <div className="hero-actions">
           <a className="btn btn-primary" href="#projects">View my work <span aria-hidden="true">↗</span></a>
@@ -467,11 +469,11 @@ export default function App(){
             <div className="screenshot-stack">
               <figure className="screenshot-frame shot-primary">
                 <div className="screenshot-bar" aria-hidden="true"><span></span><span></span><span></span></div>
-                <img src="images/Ticketsystem.png" alt="Internal Ticketing System UI — ticket list view" width="1854" height="951" loading="lazy" />
+                <img src="images/Ticketsystem.webp" alt="Ticket list view of my internal IT ticketing system, built with React and FastAPI" width="1854" height="951" loading="lazy" decoding="async" />
               </figure>
               <figure className="screenshot-frame shot-secondary">
                 <div className="screenshot-bar" aria-hidden="true"><span></span><span></span><span></span></div>
-                <img src="images/Ticketsystem2.png" alt="Internal Ticketing System UI — ticket details view" width="1831" height="954" loading="lazy" />
+                <img src="images/Ticketsystem2.webp" alt="Ticket detail view with status, assignment, and audit history in the internal IT ticketing system" width="1831" height="954" loading="lazy" decoding="async" />
               </figure>
             </div>
           </div>
@@ -495,11 +497,11 @@ export default function App(){
             <div className="screenshot-stack">
               <figure className="screenshot-frame shot-pos-primary">
                 <div className="screenshot-bar" aria-hidden="true"><span></span><span></span><span></span></div>
-                <img src="images/Retail-Pos.png" alt="Retail POS System — sales screen" width="1861" height="945" loading="lazy" />
+                <img src="images/Retail-Pos.webp" alt="Barcode checkout screen of my retail point-of-sale system, built with Next.js and NestJS" width="1861" height="945" loading="lazy" decoding="async" />
               </figure>
               <figure className="screenshot-frame shot-pos-secondary">
                 <div className="screenshot-bar" aria-hidden="true"><span></span><span></span><span></span></div>
-                <img src="images/Retail-Pos2.png" alt="Retail POS System — inventory and product management view" width="1866" height="881" loading="lazy" />
+                <img src="images/Retail-Pos2.webp" alt="Product and inventory management view in the retail point-of-sale system" width="1866" height="881" loading="lazy" decoding="async" />
               </figure>
             </div>
           </div>
